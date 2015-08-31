@@ -1,0 +1,58 @@
+<div class="browser-window" ng-controller="netcraftController">
+	<div class="toolbar">
+		<div class="dropdown">
+	  		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" >			
+	  		  	{{ getSelectedName('quickReports') }}
+	  			<span class="caret"></span>
+	  		</button>
+	  		<ul class="dropdown-menu" ng-init="initUrlList('quickReports')">
+	    		<li class="dropdown-item" ng-repeat="url in netcraftUrlLists['quickReports']" 
+	    			ng-click="updateIndex($index,'quickReports')">
+	    			<a href="#quick-reports">
+	    				{{ url.name }}
+	    			</a>
+	    		</li>
+	  		</ul>
+		</div>
+		<div class="options ">
+			<div class="dropdown" >
+				<a href="{{netcraftUrlLists['quickReports'][selectedIndex['quickReports']].url}}"  target="_blank">
+					<span class="glyphicon glyphicon-new-window"></span>
+				</a>
+	  			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		  			<span class="glyphicon glyphicon-cog">
+	  			</a>
+	  			<form ng-name="netcraftForms['quickReportsForm']" ng-init="initForm('quickReportsForm')" 
+	  				class="dropdown-menu pull-right options-dropdown container" novalidate>
+				
+					<div class="row" ng-repeat="formRow in rows">
+				   		<div class="col-sm-3">Report{{ $index }}</div>
+				   		<div class="col-sm-1">Name:</div>
+				   		<div class="col-sm-4">
+				   			<input type="text" placeholder="Website Name" ng-model="netcraftForms['quickReportsForm'][$index].name"></input>
+				   			<span style="color:red" ng-if="netcraftForms['quickReportsForm'][$index].isInvalidName = (!netcraftForms['quickReportsForm'][$index].name && netcraftForms['quickReportsForm'][$index].url)">Name is required.</span>
+			    		</div>
+			    		<div class="col-sm-1">URL</div>
+			    		<div class="col-sm-3">
+							<input type="text" placeholder="Website URL" name="urlLink" ng-model="netcraftForms['quickReportsForm'][$index].url"></input>
+							<span ng-show="(netcraftForms['quickReportsForm'][$index].isInvalidUrl = (isValid = !validURL($index,'quickReportsForm') ) || 
+							(isReq = isRequired($index,'quickReportsForm') ) )">
+								<span style="color:red" ng-show="isReq || isValid">URL is invalid.</span>
+							</span>
+				    	</div>
+			    	</div>
+			    	<div class="row">
+			       		<div class="col-sm-12">
+			       			<input ng-class="(formValidStatus = isFormValid('quickReportsForm')) ? 'btn-primary' : 'btn-default disabled-button'" type="submit" value="Save" class="dropdown-toggle" data-toggle="dropdown" ng-click="saveFormInList('quickReportsForm')"
+			       			ng-disabled = "!formValidStatus">
+			       			<input class="btn-primary" type="button" value="Cancel" class="dropdown-toggle" data-toggle="dropdown">
+			       		</div>
+					</div>
+	  			</form>
+			</div>
+		</div>
+	</div>
+	<div class="browser-window">
+		<iframe ng-src="{{getQRListHeaderURL() | trustAsResourceUrl}}" class="web-frame"></iframe>		
+	</div>
+</div>

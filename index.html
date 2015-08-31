@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="netcraftApp">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.9/ngStorage.js"></script>
+	<title>WebApp</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/main.css">
+</head>
+<body ng-controller="netcraftController" >
+	<header>
+		<div class="layout-wrap">
+			<a href="#"><img src="img/logo-netcraft.svg" alt="netcraft" class="logo"></a>
+			<form ng-submit="searchReport()" class="search-box">
+				<input type="search" placeholder="search" ng-model="searchedReportName">
+			</form>
+		</div>
+	</header>
+
+	<section class="page-body layout-wrap">
+		<div class="section-wrap">
+			<div class="notifications">Data will be updated soon</div>
+			<nav>
+				<div class="nav-section" ng-mouseenter="showFirstList = !showFirstList" 
+					ng-mouseleave="showFirstList = !showFirstList"> 
+					<p>Select Reporting Platform</p>
+					<div class="menu" >
+						<ul class="action-list list-group" ng-init="showFirstList = false">
+							<a href="http://www.google.co.il" target="_blank">
+								<li class="list-group-item">
+									Choose QS report 
+									<span class="glyphicon glyphicon-triangle-bottom menu-arrow"></span>
+								</li>
+							</a>
+							<a href="http://www.google.co.il" target="_blank">
+								<li ng-show="showFirstList" class="list-group-item">google</li>
+							</a>
+							<a href="http://www.ynet.co.il" target="_blank">
+								<li ng-show="showFirstList" class="list-group-item">ynet</li>
+							</a>
+							<a href="http://www.netcraft.com" target="_blank">
+								<li ng-show="showFirstList" class="list-group-item">netcraft</li>
+							</a>
+						</ul>
+					</div>
+				</div>
+
+				<div class="nav-section" ng-mouseenter="showSecondList = !showSecondList"
+					ng-mouseleave="showSecondList = !showSecondList">
+					<p>Select Dashboard</p>
+					<div class="menu">
+						<ul class="action-list list-group"  
+							ng-init="showSecondList = false">
+							<a href="http://www.cnn.com" target="_blank">
+								<li class="list-group-item">
+									Choose dashboard
+									<span class="glyphicon glyphicon-triangle-bottom menu-arrow">
+								</li>
+							</a>
+							<a href="http://www.cnn.com" target="_blank">
+								<li ng-show="showSecondList" class="list-group-item">cnn</li>
+							</a>
+							<a href="http://www.ebay.com" target="_blank">
+								<li ng-show="showSecondList" class="list-group-item">ebay</li>
+							</a>
+							<a href="http://www.paypal.com" target="_blank">
+								<li ng-show="showSecondList" class="list-group-item">paypal</li>
+							</a>
+							<a href="http://www.aliexpress.com" target="_blank">
+								<li ng-show="showSecondList" class="list-group-item">aliexpress</li>
+							</a>
+						</ul>
+					</div>
+				</div>
+
+				<div class="nav-section" ng-mouseenter="showThirdList = !showThirdList"
+					ng-mouseleave="showThirdList = !showThirdList">
+					<p>Help &amp; Tutorials</p>
+					<div class="menu">
+						<ul class="action-list list-group" ng-init="showThirdList = false">
+							<a href="#" target="_blank"><li  class="list-group-item ">
+								Choose guide
+								<span class="glyphicon glyphicon-triangle-bottom menu-arrow">
+							</li></a>
+							<a href="http://www.sport5.co.il" target="_blank">
+								<li ng-show="showThirdList" class="list-group-item">sport5</li>
+							</a>
+							<a href="http://www.one.co.il" target="_blank">
+								<li ng-show="showThirdList" class="list-group-item">one</li>
+							</a>
+							<a href="http://www.sport2.co.il" target="_blank">
+								<li ng-show="showThirdList" class="list-group-item">sport2</li>
+							</a>
+							<a href="http://www.sport1.co.il" target="_blank">
+								<li ng-show="showThirdList" class="list-group-item">sport1</li>
+							</a>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<section class="tabs">
+				<ul>
+					<li  class="tab-item" ng-class="{active: activeObj.activeTab == 'quickReports'}"  
+						ng-click="activeObj.activeTab = 'quickReports'">
+						<a href="#quick-reports">
+							<span class="glyphicon glyphicon-new-window"></span>
+							Quick Reports
+						</a>
+					</li>
+					<li class="tab-item" ng-class="{active: activeObj.activeTab == 'myFolders'}" 
+						ng-click="activeObj.activeTab= 'myFolders'">
+						<a href="#my-folders">
+							<span class="glyphicon glyphicon-star-empty"></span>
+							My Folders
+						</a>
+					</li>
+					<li class="tab-item" ng-class="{active: activeObj.activeTab == 'myTeamFolders'}" 
+						ng-click="activeObj.activeTab= 'myTeamFolders' ">
+						<a href="#my-team-folders">
+							<span class="glyphicon glyphicon-folder-open"></span>
+							My Team Folders
+						</a>
+					</li>
+					<li class="tab-item last-one" ng-class="{active: activeObj.activeTab == 'publicFolders'}" 
+						ng-click="activeObj.activeTab= 'publicFolders' ">
+						<a href="#public-folders">
+							<span class="glyphicon glyphicon-file"></span>
+							Public Folders
+						</a>
+					</li>
+				</ul>
+
+				<div class="tabs-content" >
+					<div class="tab-content" id="quick-reports" ng-show="activeObj.activeTab == 'quickReports'">
+						<div quick-reports-directive class="tab-content"></div>	
+					</div>
+
+					<div class="tab-content" id="my-folders" ng-show="activeObj.activeTab == 'myFolders'">
+						<a href="{{myFoldersTabURL | trustAsResourceUrl}}"  target="_blank">
+							<span class="glyphicon glyphicon-new-window main-new-window-arrow"></span>
+						</a>
+						<div class="browser-window" >
+							<iframe src="{{myFoldersTabURL | trustAsResourceUrl}}" class="web-frame"></iframe>		
+						</div>
+					</div>
+
+					<div class="tab-content " id="my-team-folders" 
+						ng-show="activeObj.activeTab == 'myTeamFolders'">
+						<div team-folders-directive class="tab-content"></div>
+					</div>
+
+					<div class="tab-content" id="public-folders" 
+						ng-show="activeObj.activeTab == 'publicFolders'">
+						<a href="{{publicFoldersTabURL | trustAsResourceUrl}}"  target="_blank">
+							<span class="glyphicon glyphicon-new-window main-new-window-arrow"></span>
+						</a>
+						<div class="browser-window">
+							<iframe src="{{publicFoldersTabURL | trustAsResourceUrl}}" class="web-frame">
+							</iframe>		
+						</div>
+					</div>
+				</div>
+			</section>
+		</section>
+	</div>
+	<script src="js/main.js"></script>
+</body>
+</html>
